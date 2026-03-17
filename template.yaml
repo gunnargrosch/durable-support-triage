@@ -2,6 +2,12 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: AI-powered support ticket triage with durable functions
 
+Parameters:
+  BedrockModelId:
+    Type: String
+    Default: anthropic.claude-haiku-4-5-20251001-v1:0
+    Description: Bedrock foundation model ID (uses global inference profile prefix automatically)
+
 Globals:
   Function:
     Timeout: 120
@@ -13,6 +19,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: durable-support-triage
+      Description: AI-powered support ticket triage with durable execution
       Handler: index.handler
       CodeUri: src/
       DurableConfig:
@@ -26,12 +33,12 @@ Resources:
               Action:
                 - bedrock:InvokeModel
               Resource:
-                - "arn:aws:bedrock:*::foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0"
-                - !Sub "arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/global.anthropic.claude-haiku-4-5-20251001-v1:0"
+                - !Sub "arn:aws:bedrock:*::foundation-model/${BedrockModelId}"
+                - !Sub "arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/global.${BedrockModelId}"
       AutoPublishAlias: live
       Environment:
         Variables:
-          BEDROCK_MODEL_ID: global.anthropic.claude-haiku-4-5-20251001-v1:0
+          BEDROCK_MODEL_ID: !Sub "global.${BedrockModelId}"
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
