@@ -1,0 +1,40 @@
+{
+  "name": "durable-support-triage",
+  "version": "1.0.0",
+  "description": "AI-powered support ticket triage using AWS Lambda Durable Functions, Amazon Bedrock, and human-in-the-loop callbacks.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/",
+    "demo": "tsx scripts/demo.ts",
+    "demo:local": "tsx scripts/demo.ts --local",
+    "demo:cloud": "tsx scripts/demo.ts --cloud"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "durable-functions",
+    "bedrock",
+    "serverless"
+  ],
+  "author": "Gunnar Grosch",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1010.0",
+    "@aws/durable-execution-sdk-js": "^1.1.0"
+  },
+  "devDependencies": {
+    "@aws/durable-execution-sdk-js-eslint-plugin": "^1.0.0",
+    "@aws/durable-execution-sdk-js-testing": "^1.1.1",
+    "@types/aws-lambda": "^8.10.161",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.5.0",
+    "eslint": "^9.39.4",
+    "jest": "^30.3.0",
+    "ts-jest": "^29.4.6",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.1"
+  }
+}

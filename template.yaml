@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: AI-powered support ticket triage with durable functions
+
+Globals:
+  Function:
+    Timeout: 120
+    MemorySize: 256
+    Runtime: nodejs24.x
+
+Resources:
+  SupportTriageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: durable-support-triage
+      Handler: index.handler
+      CodeUri: src/
+      DurableConfig:
+        ExecutionTimeout: 604800
+        RetentionPeriodInDays: 14
+      Policies:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicDurableExecutionRolePolicy
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+              Resource:
+                - "arn:aws:bedrock:*::foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0"
+                - !Sub "arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/global.anthropic.claude-haiku-4-5-20251001-v1:0"
+      AutoPublishAlias: live
+      Environment:
+        Variables:
+          BEDROCK_MODEL_ID: global.anthropic.claude-haiku-4-5-20251001-v1:0
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2022
+        EntryPoints:
+          - index.ts
+
+Outputs:
+  FunctionArn:
+    Value: !GetAtt SupportTriageFunction.Arn
+  AliasArn:
+    Value: !Ref SupportTriageFunctionAliaslive
+  DemoCommand:
+    Description: Run the interactive cloud demo (add --profile=<name> if needed)
+    Value: !Sub "npm run demo:cloud -- --region=${AWS::Region} --function-name=${SupportTriageFunction}:live"
