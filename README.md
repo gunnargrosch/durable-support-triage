@@ -87,6 +87,12 @@ sam build
 sam deploy --guided
 ```
 
+The template defaults to **Claude Haiku 4.5** for fast, low-cost triage. To use a different model, pass the `BedrockModelId` parameter:
+
+```bash
+sam deploy --guided --parameter-overrides BedrockModelId=anthropic.claude-sonnet-4-20250514-v1:0
+```
+
 ## Direct invocation
 
 You can also invoke the function and send callbacks directly via the AWS CLI. Replace `<your-function-name>` with the `FunctionArn` output from your stack (or use the function name from `DemoCommand`):
