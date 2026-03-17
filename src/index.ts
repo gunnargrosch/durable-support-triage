@@ -264,8 +264,9 @@ export const handler = withDurableExecution(
 
 // In production, these would integrate with your ticketing system, email
 // provider, and notification service. Stubbed here for the demo.
-// NOTE: These use console.log instead of context.logger because they run
-// inside step() callbacks which don't have access to the durable context.
+// NOTE: notifyAgent and notifySpecialist run inside waitForCallback submitters;
+// sendCustomerReply and sendSatisfactionSurvey run inside step() callbacks.
+// Neither context has direct access to context.logger, so these use console.log.
 // In production, pass the logger or use a structured logging library.
 
 async function notifyAgent(params: {
