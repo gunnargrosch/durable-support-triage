@@ -2,7 +2,7 @@
 
 AI-powered support ticket triage built with [AWS Lambda Durable Functions](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) and Amazon Bedrock. Demonstrates how durable execution primitives (steps, callbacks, and parallel branches) compose into a human-in-the-loop workflow that can run for days while only paying for compute during active work.
 
-Blog post: [AWS Lambda Durable Functions: Building Long-Running Workflows in Code](https://dev.to/gunnargrosch)
+Blog post: [AWS Lambda Durable Functions: Building Long-Running Workflows in Code](https://dev.to/gunnargrosch/aws-lambda-durable-functions-building-long-running-workflows-in-code-1ad3)
 
 ## How it works
 
